@@ -11,10 +11,10 @@ import {
 import clsx from "clsx";
 import NodesList from "@/components/Sidebar/NodesList";
 
-const NodesSidebar = () => {
+const NodesSidebar = ({ onAddNode, sourceNodeId, trigger }) => {
   return (
     <Sheet modal={false}>
-      <SheetTrigger>Open</SheetTrigger>
+      <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent className={clsx("p-0 overflow-y-scroll")}>
         <SheetHeader className={clsx("px-5 py-3")}>
           <SheetTitle
@@ -33,7 +33,7 @@ const NodesSidebar = () => {
           </SheetDescription>
         </SheetHeader>
         <div className="px-5 py-4 border-t ">
-          <NodesList />
+          <NodesList onAddNode={onAddNode} sourceNodeId={sourceNodeId} />
         </div>
       </SheetContent>
     </Sheet>

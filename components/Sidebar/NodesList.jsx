@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 import clsx from "clsx";
 import { nodesIcon, nodeTypeOptions } from "@/constants";
 
-const NodesList = () => {
+const NodesList = ({ onAddNode, sourceNodeId }) => {
   const [filterNodes, setFilterNodes] = useState([]);
 
   const searchHandler = (event) => {
@@ -37,9 +37,10 @@ const NodesList = () => {
 
       {filterNodes.length > 0 && (
         <ul className="flex flex-col gap-3 mt-4">
-          {filterNodes.map((node) => (
+          {filterNodes.map((node, index) => (
             <li
-              key={node.id}
+              key={index}
+              onClick={() => onAddNode(sourceNodeId, node)}
               className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
             >
               <span
@@ -65,9 +66,10 @@ const NodesList = () => {
             <ul className="flex flex-col gap-3">
               {nodeTypeOptions
                 .filter((node) => node.group === "contact")
-                .map((node) => (
+                .map((node, index) => (
                   <li
-                    key={node.id}
+                    key={index}
+                    onClick={() => onAddNode(sourceNodeId, node)}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span
@@ -91,9 +93,10 @@ const NodesList = () => {
             <ul className="flex flex-col gap-3">
               {nodeTypeOptions
                 .filter((node) => node.group === "pipeline")
-                .map((node) => (
+                .map((node, index) => (
                   <li
-                    key={node.id}
+                    key={index}
+                    onClick={() => onAddNode(sourceNodeId, node)}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span
@@ -116,9 +119,10 @@ const NodesList = () => {
             <ul className="flex flex-col gap-3">
               {nodeTypeOptions
                 .filter((node) => node.group === "email")
-                .map((node) => (
+                .map((node, index) => (
                   <li
-                    key={node.id}
+                    key={index}
+                    onClick={() => onAddNode(sourceNodeId, node)}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span

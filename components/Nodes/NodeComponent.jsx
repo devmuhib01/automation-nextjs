@@ -2,9 +2,23 @@
 
 import React, { useState } from "react";
 import { nodesIcon, nodeTypeOptions } from "@/constants";
+import NodesSidebar from "@/components/Sidebar/NodesSidebar";
 
 const NodeComponent = ({ id, data, type }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  const AddButton = type && type !== "output" && (
+    <button
+      style={{
+        position: "absolute",
+        bottom: "0",
+        right: "0",
+        cursor: "pointer",
+      }}
+    >
+      +
+    </button>
+  );
 
   return (
     <div className="node__item">
@@ -50,7 +64,14 @@ const NodeComponent = ({ id, data, type }) => {
           +
         </button>
       )}
-      {dropdownVisible && (
+
+      <NodesSidebar
+        trigger={AddButton}
+        onAddNode={data.onAddNode}
+        sourceNodeId={id}
+      />
+
+      {/* {dropdownVisible && (
         <div
           style={{
             position: "absolute",
@@ -79,7 +100,7 @@ const NodeComponent = ({ id, data, type }) => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

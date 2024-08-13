@@ -53,14 +53,12 @@ export const initialEdges = [
 
 export const nodeTypeOptions = [
   {
-    id: uuidv4(),
     group: "contact",
     type: "contact",
     data: { label: "Contact Created" },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "updateContact",
     data: {
@@ -71,70 +69,60 @@ export const nodeTypeOptions = [
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "addToList",
     data: { label: "Add To List", list: [] },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     type: "moveToList",
     group: "contact",
     data: { label: "Move to another List", list: [] },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "addTag",
     data: { label: "Add Tag", tags: [] },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "removeTag",
     data: { label: "Remove Tag", tags: [] },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "addNote",
     data: { label: "Add Notes", note: null },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "contact",
     type: "assignTask",
     data: { label: "Assign Task", project: {}, stage: {} },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "pipeline",
     type: "addPipeline",
     data: { label: "Add to Pipeline", pipeline: [], stage: {} },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "pipeline",
     type: "removePipeline",
     data: { label: "Remove to Pipeline", pipeline: [] },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "pipeline",
     type: "pipelineStageChange",
     data: { label: "Pipeline Stage Change", pipeline: [], stage: {} },
     position: { x: 0, y: 0 },
   },
   {
-    id: uuidv4(),
     group: "email",
     type: "email",
     data: { label: "Send an Email" },

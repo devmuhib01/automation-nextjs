@@ -17,7 +17,9 @@ import {
 import "@xyflow/react/dist/style.css";
 import { initialEdges, initialNodes } from "@/constants";
 import { nodeTypes } from "@/constants/nodeTypes";
-import NodesSidebar from "@/components/Sidebar/NodesSidebar";
+
+import { v4 as uuidv4 } from "uuid";
+import _ from "lodash";
 
 const Automation = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -104,24 +106,26 @@ const Automation = () => {
   };
 
   const addNewNode = (sourceNodeId, node) => {
-    const newNodeId = Math.floor(Math.random() * 99999) + 1;
+    const cloneNode = _.cloneDeep(node);
+    const { group, ...rest } = cloneNode;
 
     const newNode = {
-      id: newNodeId.toString(),
-      type: node.type,
+      id: uuidv4(),
+      ...rest,
       data: {
-        label: `New  ${node.type} ${newNodeId}`,
+        ...rest.data,
         onDeleteNode,
         onAddNode: addNewNode,
       },
-      position: { x: 0, y: 0 }, // position will be updated by layout
+      // position: { x: 0, y: 0 }, // position will be updated by layout
     };
+
     setNodes((nds) => nds.concat(newNode));
     setEdges((eds) =>
       eds.concat({
-        id: `e${sourceNodeId}-${newNodeId}`,
+        id: `e${sourceNodeId}-${newNode.id}`,
         source: sourceNodeId,
-        target: newNodeId.toString(),
+        target: newNode.id,
       })
     );
   };
@@ -178,8 +182,6 @@ const Automation = () => {
             </Panel>
           </ReactFlow>
         </div>
-
-        <NodesSidebar />
 
         {/* {selectedNode && (
           <div
