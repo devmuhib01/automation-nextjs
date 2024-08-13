@@ -1,14 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { nodeTypeOptions } from "@/constants";
+import { nodesIcon, nodeTypeOptions } from "@/constants";
 
 const NodeComponent = ({ id, data, type }) => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   return (
-    <div>
-      <p>{data.label}</p>
+    <div className="node__item">
+      {nodesIcon[type]?.icon && (
+        <span
+          style={{ background: nodesIcon[type]?.bg }}
+          className="w-[35px] h-[35px] flex items-center justify-center rounded"
+        >
+          {nodesIcon[type]?.icon}
+        </span>
+      )}
+      <p className="text-[14px] leading-6 text-[#3E3F3F] font-medium">
+        {data.label}
+      </p>
       <button
         style={{
           position: "absolute",
@@ -23,6 +33,7 @@ const NodeComponent = ({ id, data, type }) => {
       >
         x
       </button>
+
       {type && type !== "output" && (
         <button
           style={{
@@ -51,12 +62,12 @@ const NodeComponent = ({ id, data, type }) => {
             zIndex: 10,
           }}
         >
-          {nodeTypeOptions.map((type) => (
+          {nodeTypeOptions.map((node) => (
             <div
-              key={type}
+              key={node.id}
               onClick={() => {
                 setDropdownVisible(false);
-                data.onAddNode(id, type);
+                data.onAddNode(id, node);
               }}
               style={{
                 padding: "5px 10px",
@@ -64,7 +75,7 @@ const NodeComponent = ({ id, data, type }) => {
                 borderBottom: "1px solid #ccc",
               }}
             >
-              {type}
+              {node.type}
             </div>
           ))}
         </div>

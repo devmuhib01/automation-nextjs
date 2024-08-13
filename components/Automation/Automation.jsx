@@ -42,7 +42,7 @@ const Automation = () => {
       );
 
       // Create a d3 tree layout
-      const treeLayout = tree().nodeSize([150, 150]);
+      const treeLayout = tree().nodeSize([270, 170]);
       treeLayout(root);
 
       // Assign calculated positions to nodes
@@ -65,7 +65,7 @@ const Automation = () => {
 
   const onConnect = useCallback((connection) => {
     // connection.sourceHandle = "bottom"; // Connect from the bottom handle
-    connection.animated = true; // Enable animation for the connection
+    // connection.animated = true; // Enable animation for the connection
 
     setEdges((eds) => addEdge(connection, eds));
   }, []);
@@ -103,14 +103,14 @@ const Automation = () => {
     }
   };
 
-  const addNewNode = (sourceNodeId, nodeType) => {
+  const addNewNode = (sourceNodeId, node) => {
     const newNodeId = Math.floor(Math.random() * 99999) + 1;
 
     const newNode = {
       id: newNodeId.toString(),
-      type: nodeType,
+      type: node.type,
       data: {
-        label: `New  ${nodeType} ${newNodeId}`,
+        label: `New  ${node.type} ${newNodeId}`,
         onDeleteNode,
         onAddNode: addNewNode,
       },
@@ -122,7 +122,6 @@ const Automation = () => {
         id: `e${sourceNodeId}-${newNodeId}`,
         source: sourceNodeId,
         target: newNodeId.toString(),
-        animated: true,
       })
     );
   };
@@ -156,7 +155,6 @@ const Automation = () => {
           <ReactFlow
             nodes={nodes.map((node) => ({
               ...node,
-              type: node.type || "default",
               data: {
                 ...node.data,
                 onDeleteNode,

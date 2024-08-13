@@ -68,15 +68,30 @@
   }
 }
 
+@layer components {
+  .node__item {
+    @apply flex items-center gap-4 px-5 py-4 border rounded-[10px] cursor-pointer;
+  }
+}
+
 .automation__canvas .react-flow {
-  --xy-edge-stroke-default: #2f9089 !important;
+  --xy-edge-stroke-default: #82808e !important;
+  --xy-edge-stroke-selected-default: #82808e !important;
+  --xy-node-border-default: none !important;
+  --xy-node-boxshadow-hover-default: none !important;
+  --xy-node-boxshadow-selected-default: none !important;
 }
 .automation__canvas .react-flow .react-flow__handle {
-  background-color: #2f9089 !important;
+  background-color: #82808e !important;
 }
 
 .automation__canvas .react-flow__node-default.selectable.selected {
   box-shadow: none;
+}
+
+.react-flow__node {
+  width: 260px !important;
+  /* height: 68px !important; */
 }
 
 .react-flow__node,
@@ -86,29 +101,5 @@
 }
 
 .react-flow__edge-path {
-  stroke: #2f9089;
-}
-
-.node__item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px;
-  border-radius: 8px;
-  border-left-width: 3px;
-  border-left-style: solid;
-  background-color: #fff;
-  box-shadow: 0 1px 3px 0 rgba(0, 20, 32, 0.12);
-  transition: box-shadow 0.2s ease-in-out;
-  cursor: pointer;
-  margin: 0px 5px;
-}
-
-.node__output {
-  border: 1px solid red;
-  padding: 8px;
-  color: red;
-  margin: 0px 5px;
-  border-radius: 8px;
+  stroke: #82808e;
 }

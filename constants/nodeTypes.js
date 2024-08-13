@@ -1,9 +1,9 @@
-import DefaultNode from "@/components/Nodes/DefaultNode";
+import CreateContactNode from "@/components/Nodes/CreateContactNode";
 import EndNode from "@/components/Nodes/EndNode";
 import InputNode from "@/components/Nodes/InputNode";
 
 export const nodeTypes = {
   input: InputNode,
-  default: DefaultNode,
+  contact: CreateContactNode,
   end: EndNode,
 };
