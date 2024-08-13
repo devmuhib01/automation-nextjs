@@ -73,7 +73,7 @@ const Automation = () => {
   }, []);
 
   const onNodeClick = (event, node) => {
-    alert("node click");
+    // alert("node click");
     event.stopPropagation();
     setSelectedNode(node);
   };

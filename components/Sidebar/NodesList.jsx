@@ -8,6 +8,7 @@ import { nodesIcon, nodeTypeOptions } from "@/constants";
 
 const NodesList = ({ onAddNode, sourceNodeId }) => {
   const [filterNodes, setFilterNodes] = useState([]);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   const searchHandler = (event) => {
     const filteredNodes = nodeTypeOptions.filter((node) =>
@@ -16,8 +17,13 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
 
     if (event.target.value) {
       setFilterNodes(filteredNodes);
+
+      if (!filteredNodes.length) {
+        setIsNotFound(true);
+      }
     } else {
       setFilterNodes([]);
+      setIsNotFound(false);
     }
   };
 
@@ -60,7 +66,7 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
         </ul>
       )}
 
-      {!filterNodes.length && (
+      {!filterNodes.length && !isNotFound && (
         <div>
           <div>
             <p className="text-[14px] leading-[22px] font-bold text-[#3E3F3F] uppercase my-4">
@@ -150,6 +156,13 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                 ))}
             </ul>
           </div>
+        </div>
+      )}
+
+      {isNotFound && !filterNodes.length && (
+        <div className="text-center py-4">
+          No nodes found matching your search criteria. Please try a different
+          term.
         </div>
       )}
     </div>
