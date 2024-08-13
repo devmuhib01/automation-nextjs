@@ -13,6 +13,7 @@ const NodeComponent = ({ id, data, type }) => {
         right: "0",
         cursor: "pointer",
       }}
+      onClick={(e) => e.stopPropagation()}
     >
       +
     </button>

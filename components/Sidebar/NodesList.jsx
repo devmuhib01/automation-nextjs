@@ -40,7 +40,10 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
           {filterNodes.map((node, index) => (
             <li
               key={index}
-              onClick={() => onAddNode(sourceNodeId, node)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onAddNode(sourceNodeId, node);
+              }}
               className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
             >
               <span
@@ -69,7 +72,10 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                 .map((node, index) => (
                   <li
                     key={index}
-                    onClick={() => onAddNode(sourceNodeId, node)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddNode(sourceNodeId, node);
+                    }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span
@@ -96,7 +102,10 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                 .map((node, index) => (
                   <li
                     key={index}
-                    onClick={() => onAddNode(sourceNodeId, node)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddNode(sourceNodeId, node);
+                    }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span
@@ -122,7 +131,10 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                 .map((node, index) => (
                   <li
                     key={index}
-                    onClick={() => onAddNode(sourceNodeId, node)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onAddNode(sourceNodeId, node);
+                    }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
                     <span
