@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { nodesIcon, nodeTypeOptions } from "@/constants";
+import React from "react";
+import { nodesIcon } from "@/constants";
 import NodesSidebar from "@/components/Sidebar/NodesSidebar";
 
 const NodeComponent = ({ id, data, type }) => {
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-
-  const AddButton = type && type !== "output" && (
+  const AddButton = type && type !== "end" && (
     <button
       style={{
         position: "absolute",
@@ -48,59 +46,11 @@ const NodeComponent = ({ id, data, type }) => {
         x
       </button>
 
-      {type && type !== "output" && (
-        <button
-          style={{
-            position: "absolute",
-            bottom: "0",
-            right: "0",
-            cursor: "pointer",
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setDropdownVisible(!dropdownVisible);
-          }}
-        >
-          +
-        </button>
-      )}
-
       <NodesSidebar
         trigger={AddButton}
         onAddNode={data.onAddNode}
         sourceNodeId={id}
       />
-
-      {/* {dropdownVisible && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "20px",
-            right: "0",
-            background: "white",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            zIndex: 10,
-          }}
-        >
-          {nodeTypeOptions.map((node) => (
-            <div
-              key={node.id}
-              onClick={() => {
-                setDropdownVisible(false);
-                data.onAddNode(id, node);
-              }}
-              style={{
-                padding: "5px 10px",
-                cursor: "pointer",
-                borderBottom: "1px solid #ccc",
-              }}
-            >
-              {node.type}
-            </div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };
