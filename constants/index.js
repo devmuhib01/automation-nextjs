@@ -21,23 +21,21 @@ export const initialNodes = [
   {
     id: "2",
     type: "contact",
-    data: { label: "contact 1" },
+    data: { label: "Contact Created" },
     position: { x: 0, y: 0 },
   },
   {
     id: "3",
-    type: "contact",
-    data: { label: "contact 2" },
+    type: "updateContact",
+    data: {
+      label: "Update Contact Field",
+      type: "",
+      fields: [{ name: "city", value: "Sylhet" }],
+    },
     position: { x: 0, y: 0 },
   },
   {
     id: "4",
-    type: "contact",
-    data: { label: "contact 3" },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: "6",
     type: "end",
     data: { label: "End" },
     position: { x: 0, y: 0 },
@@ -47,8 +45,7 @@ export const initialNodes = [
 export const initialEdges = [
   { id: "e1-2", source: "1", target: "2" },
   { id: "e1-3", source: "1", target: "3" },
-  { id: "e1-4", source: "1", target: "4" },
-  { id: "e4-6", source: "4", target: "6" },
+  { id: "e1-4", source: "3", target: "4" },
 ];
 
 export const nodeTypeOptions = [
