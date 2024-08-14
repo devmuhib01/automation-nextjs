@@ -4,10 +4,12 @@ import React from "react";
 import { nodesIcon } from "@/constants";
 import NodesSidebar from "@/components/Sidebar/NodesSidebar";
 import NodeEditSidebar from "../Sidebar/NodeEditSidebar";
+import { Button } from "@/components/ui/button";
 
 const NodeComponent = ({ id, data, type }) => {
   const AddButton = type && type !== "end" && (
-    <button
+    <Button
+      size="icon"
       style={{
         position: "absolute",
         bottom: "0",
@@ -17,7 +19,7 @@ const NodeComponent = ({ id, data, type }) => {
       onClick={(e) => e.stopPropagation()}
     >
       +
-    </button>
+    </Button>
   );
 
   const NodeComponent = (
@@ -33,20 +35,6 @@ const NodeComponent = ({ id, data, type }) => {
       <p className="text-[14px] leading-6 text-[#3E3F3F] font-medium">
         {data.label}
       </p>
-      <button
-        style={{
-          position: "absolute",
-          top: "0",
-          right: "0",
-          cursor: "pointer",
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          data.onDeleteNode(id);
-        }}
-      >
-        x
-      </button>
 
       <NodesSidebar
         trigger={AddButton}

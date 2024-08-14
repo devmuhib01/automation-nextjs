@@ -67,7 +67,14 @@ const NodeEditSidebar = ({ nodeId, data, trigger }) => {
 
         <SheetFooter className={clsx("p-5 border-t justify-start space-x-0")}>
           <div className="flex items-center justify-between w-full">
-            <Button type="button" variant="delete">
+            <Button
+              type="button"
+              variant="delete"
+              onClick={(e) => {
+                e.stopPropagation();
+                data.onDeleteNode(nodeId);
+              }}
+            >
               Delete
             </Button>
 
