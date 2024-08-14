@@ -15,7 +15,10 @@ const NodesSidebar = ({ onAddNode, sourceNodeId, trigger }) => {
   return (
     <Sheet modal={false}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className={clsx("p-0 overflow-y-scroll")}>
+      <SheetContent
+        className={clsx("p-0 overflow-y-scroll")}
+        onClick={(e) => e.stopPropagation()}
+      >
         <SheetHeader className={clsx("px-5 py-3")}>
           <SheetTitle
             className={clsx(

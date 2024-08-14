@@ -172,7 +172,6 @@ const Automation = () => {
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
-            onNodeClick={onNodeClick}
             onInit={setRfInstance}
             fitView
           >
@@ -184,24 +183,6 @@ const Automation = () => {
             </Panel>
           </ReactFlow>
         </div>
-
-        {/* {selectedNode && (
-          <div
-            style={{
-              width: "30%",
-              padding: "20px",
-              borderLeft: "1px solid #ccc",
-            }}
-          >
-            <h3>Node Details</h3>
-            <p>ID: {selectedNode.id}</p>
-            <p>Type: {selectedNode.type}</p>
-            <p>Label: {selectedNode.data.label}</p>
-            <button onClick={() => addNewNode(selectedNode.id)}>
-              Add New Node
-            </button>
-          </div>
-        )} */}
       </div>
     </ReactFlowProvider>
   );

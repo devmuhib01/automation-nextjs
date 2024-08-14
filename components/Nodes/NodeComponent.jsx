@@ -3,6 +3,7 @@
 import React from "react";
 import { nodesIcon } from "@/constants";
 import NodesSidebar from "@/components/Sidebar/NodesSidebar";
+import NodeEditSidebar from "../Sidebar/NodeEditSidebar";
 
 const NodeComponent = ({ id, data, type }) => {
   const AddButton = type && type !== "end" && (
@@ -19,7 +20,7 @@ const NodeComponent = ({ id, data, type }) => {
     </button>
   );
 
-  return (
+  const NodeComponent = (
     <div className="node__item">
       {nodesIcon[type]?.icon && (
         <span
@@ -54,6 +55,8 @@ const NodeComponent = ({ id, data, type }) => {
       />
     </div>
   );
+
+  return <NodeEditSidebar nodeId={id} data={data} trigger={NodeComponent} />;
 };
 
 export default NodeComponent;
