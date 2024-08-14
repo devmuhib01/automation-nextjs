@@ -157,7 +157,7 @@ const Automation = () => {
   return (
     <ReactFlowProvider>
       <div style={{ display: "flex" }}>
-        <div className="automation__canvas w-[80%] h-[800px]">
+        <div className="automation__canvas w-full h-[900px]">
           <ReactFlow
             nodes={nodes.map((node) => ({
               ...node,

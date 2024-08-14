@@ -44,7 +44,14 @@ const NodeComponent = ({ id, data, type }) => {
     </div>
   );
 
-  return <NodeEditSidebar nodeId={id} data={data} trigger={NodeComponent} />;
+  return (
+    <NodeEditSidebar
+      nodeId={id}
+      nodeType={type}
+      data={data}
+      trigger={NodeComponent}
+    />
+  );
 };
 
 export default NodeComponent;

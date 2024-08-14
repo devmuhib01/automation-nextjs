@@ -15,7 +15,7 @@ import clsx from "clsx";
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
 
-const NodeEditSidebar = ({ nodeId, data, trigger }) => {
+const NodeEditSidebar = ({ nodeId, nodeType, data, trigger }) => {
   const [formData, setFormData] = useState({
     label: "",
   });
@@ -67,16 +67,18 @@ const NodeEditSidebar = ({ nodeId, data, trigger }) => {
 
         <SheetFooter className={clsx("p-5 border-t justify-start space-x-0")}>
           <div className="flex items-center justify-between w-full">
-            <Button
-              type="button"
-              variant="delete"
-              onClick={(e) => {
-                e.stopPropagation();
-                data.onDeleteNode(nodeId);
-              }}
-            >
-              Delete
-            </Button>
+            {nodeType !== "input" && (
+              <Button
+                type="button"
+                variant="delete"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  data.onDeleteNode(nodeId);
+                }}
+              >
+                Delete
+              </Button>
+            )}
 
             <div className="flex items-center gap-3">
               <SheetClose asChild>
