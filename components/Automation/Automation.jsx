@@ -162,7 +162,7 @@ const Automation = () => {
       const node = nodes.find((n) => n.id === selectedNode.id);
 
       if (node) {
-        node.data = { ...selectedNode.data };
+        node.data = { ...node.data, ...selectedNode.data };
       }
 
       onNodesChange([node]);
