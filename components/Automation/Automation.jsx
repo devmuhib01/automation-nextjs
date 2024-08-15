@@ -20,11 +20,16 @@ import { nodeTypes } from "@/constants/nodeTypes";
 
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
+import { useAutomationFlowStore } from "@/store/automationFlowStore";
 
 const Automation = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-  const [selectedNode, setSelectedNode] = useState(null);
+
+  const { selectedNode, setSelectedNode } = useAutomationFlowStore((state) => ({
+    setSelectedNode: state.setSelectedNode,
+    selectedNode: state.selectedNode,
+  }));
 
   const [rfInstance, setRfInstance] = useState(null);
 
@@ -74,6 +79,8 @@ const Automation = () => {
 
   const onNodeClick = (event, node) => {
     // alert("node click");
+
+    console.log(node, "node");
     event.stopPropagation();
     setSelectedNode(node);
   };
@@ -102,9 +109,7 @@ const Automation = () => {
       )
     );
 
-    if (selectedNode && selectedNode.id === nodeId) {
-      setSelectedNode(null);
-    }
+    // setSelectedNode(null);
   };
 
   const addNewNode = (sourceNodeId, node) => {
@@ -154,6 +159,16 @@ const Automation = () => {
     restoreFlow();
   }, [setNodes]);
 
+  useEffect(() => {
+    if (selectedNode) {
+      const node = nodes.find((n) => n.id === selectedNode.id);
+
+      if (node) {
+        node.data = { ...selectedNode.data };
+      }
+    }
+  }, [selectedNode]);
+
   return (
     <ReactFlowProvider>
       <div style={{ display: "flex" }}>
@@ -173,6 +188,7 @@ const Automation = () => {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             onInit={setRfInstance}
+            onNodeClick={onNodeClick}
             fitView
           >
             <Controls />
