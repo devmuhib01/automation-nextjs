@@ -13,23 +13,13 @@ import {
 } from "@/components/ui/sheet";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
-import { Input } from "../ui/input";
+import EditAddToList from "@/components/Sidebar/NodeEditOptions/EditAddToList";
 import { useAutomationFlowStore } from "@/store/automationFlowStore";
 
 const NodeEditSidebar = ({ trigger }) => {
-  const { setSelectedNode, selectedNode } = useAutomationFlowStore((state) => ({
-    setSelectedNode: state.setSelectedNode,
+  const { selectedNode } = useAutomationFlowStore((state) => ({
     selectedNode: state.selectedNode,
   }));
-
-  const onChangeHandler = (event) => {
-    if (selectedNode) {
-      setSelectedNode({
-        ...selectedNode,
-        data: { ...selectedNode.data, [event.target.name]: event.target.value },
-      });
-    }
-  };
 
   return (
     <Sheet modal={false}>
@@ -56,15 +46,7 @@ const NodeEditSidebar = ({ trigger }) => {
             </SheetDescription>
           </SheetHeader>
           <div className="px-5 py-4 border-t ">
-            <Input
-              className={clsx(
-                "focus-visible:ring-0 focus-visible:ring-offset-0"
-              )}
-              type="text"
-              name="label"
-              value={selectedNode.data.label}
-              onChange={onChangeHandler}
-            />
+            <EditAddToList />
           </div>
 
           <SheetFooter className={clsx("p-5 border-t justify-start space-x-0")}>
