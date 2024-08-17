@@ -11,7 +11,7 @@ import {
 import clsx from "clsx";
 import NodesList from "@/components/Sidebar/NodesList";
 
-const NodesSidebar = ({ onAddNode, sourceNodeId, trigger }) => {
+const NodesSidebar = ({ trigger }) => {
   return (
     <Sheet modal={false}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
@@ -36,7 +36,7 @@ const NodesSidebar = ({ onAddNode, sourceNodeId, trigger }) => {
           </SheetDescription>
         </SheetHeader>
         <div className="px-5 py-4 border-t ">
-          <NodesList onAddNode={onAddNode} sourceNodeId={sourceNodeId} />
+          <NodesList />
         </div>
       </SheetContent>
     </Sheet>

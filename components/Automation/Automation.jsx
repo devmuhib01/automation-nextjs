@@ -21,15 +21,18 @@ import { nodeTypes } from "@/constants/nodeTypes";
 import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { useAutomationFlowStore } from "@/store/automationFlowStore";
+import { edgeTypes } from "@/constants/edgeTypes";
 
 const Automation = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const { selectedNode, setSelectedNode } = useAutomationFlowStore((state) => ({
-    setSelectedNode: state.setSelectedNode,
-    selectedNode: state.selectedNode,
-  }));
+  const { selectedNode, setSelectedNode, setSourceNode } =
+    useAutomationFlowStore((state) => ({
+      setSelectedNode: state.setSelectedNode,
+      selectedNode: state.selectedNode,
+      setSourceNode: state.setSourceNode,
+    }));
 
   const [rfInstance, setRfInstance] = useState(null);
 
@@ -110,6 +113,54 @@ const Automation = () => {
     // setSelectedNode(null);
   };
 
+  const addNewNodeBelow = (sourceNode, edgeId) => {
+    console.log("getting", sourceNode, edgeId);
+    const newNode = {
+      id: `${nodes.length + 1}`,
+      type: "email",
+      data: { label: `New Node ${nodes.length + 1}` },
+      position: { x: 0, y: 0 },
+    };
+    setNodes((nds) => nds.concat(newNode));
+
+    // Update edges
+    const updatedEdges = edges.map((edge) => {
+      if (edge.id === edgeId) {
+        return {
+          ...edge,
+          target: newNode.id,
+        };
+      }
+      return edge;
+    });
+
+    // setEdges((eds) => eds.concat(updatedEdges));
+
+    // Set the new edges
+    // Set the new edges using concat
+    // setEdges((eds) =>
+    //   eds.concat({
+    //     id: `e${newNode.id}-${sourceNode.id}`,
+    //     source: newNode.id,
+    //     target: sourceNode.id,
+    //     type: "custom",
+    //     data: { onEdgeButtonClick },
+    //   })
+    // );
+
+    // setEdges([
+    //   ...updatedEdges,
+    //   {
+    //     id: `e${newNode.id}-${sourceNode.id}`,
+    //     source: newNode.id,
+    //     target: sourceNode.id,
+    //     animated: true,
+    //     type: "custom",
+    //     data: { onEdgeButtonClick },
+    //   },
+    // ]);
+  };
+
   const addNewNode = (sourceNodeId, node) => {
     const cloneNode = _.cloneDeep(node);
     const { group, ...rest } = cloneNode;
@@ -133,6 +184,21 @@ const Automation = () => {
         target: newNode.id,
       })
     );
+  };
+
+  const onEdgeButtonClick = (edgeId) => {
+    // Handle the logic to open the sidebar and add a new node
+    const edge = edges.find((e) => e.id === edgeId);
+    if (edge) {
+      const sourceNode = nodes.find((n) => n.id === edge.source);
+
+      setSourceNode({
+        ...sourceNode,
+        data: { ...sourceNode.data, onDeleteNode, onAddNode: addNewNode },
+      });
+      // addNewNodeBelow(sourceNode, edgeId);
+      console.log("clicked edge", sourceNode, edgeId);
+    }
   };
 
   const onSave = useCallback(() => {
@@ -182,8 +248,13 @@ const Automation = () => {
                 onAddNode: addNewNode,
               },
             }))}
-            edges={edges}
+            edges={edges.map((edge) => ({
+              ...edge,
+              type: "custom",
+              data: { onEdgeButtonClick },
+            }))}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}

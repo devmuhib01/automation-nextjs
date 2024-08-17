@@ -5,10 +5,15 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import clsx from "clsx";
 import { nodesIcon, nodeTypeOptions } from "@/constants";
+import { useAutomationFlowStore } from "@/store/automationFlowStore";
 
-const NodesList = ({ onAddNode, sourceNodeId }) => {
+const NodesList = () => {
   const [filterNodes, setFilterNodes] = useState([]);
   const [isNotFound, setIsNotFound] = useState(false);
+
+  const { sourceNode } = useAutomationFlowStore((state) => ({
+    sourceNode: state.sourceNode,
+  }));
 
   const searchHandler = (event) => {
     const filteredNodes = nodeTypeOptions.filter((node) =>
@@ -48,7 +53,7 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
               key={index}
               onClick={(e) => {
                 e.stopPropagation();
-                onAddNode(sourceNodeId, node);
+                sourceNode.data.onAddNode(sourceNode.id, node);
               }}
               className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
             >
@@ -80,7 +85,7 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onAddNode(sourceNodeId, node);
+                      sourceNode.data.onAddNode(sourceNode.id, node);
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
@@ -110,7 +115,7 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onAddNode(sourceNodeId, node);
+                      sourceNode.data.onAddNode(sourceNode.id, node);
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
@@ -139,7 +144,7 @@ const NodesList = ({ onAddNode, sourceNodeId }) => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      onAddNode(sourceNodeId, node);
+                      sourceNode.data.onAddNode(sourceNode.id, node);
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >

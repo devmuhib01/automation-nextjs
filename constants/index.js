@@ -18,35 +18,16 @@ export const initialNodes = [
     data: { label: "Start your automation" },
     position: { x: 0, y: 0 },
   },
+
   {
     id: "2",
-    type: "contact",
-    data: { label: "Contact Created" },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: "3",
-    type: "updateContact",
-    data: {
-      label: "Update Contact Field",
-      type: "",
-      fields: [{ name: "city", value: "Sylhet" }],
-    },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: "4",
     type: "end",
     data: { label: "End" },
     position: { x: 0, y: 0 },
   },
 ];
 
-export const initialEdges = [
-  { id: "e1-2", source: "1", target: "2" },
-  { id: "e1-3", source: "1", target: "3" },
-  { id: "e1-4", source: "3", target: "4" },
-];
+export const initialEdges = [{ id: "e1-1", source: "1", target: "2" }];
 
 export const nodeTypeOptions = [
   {
