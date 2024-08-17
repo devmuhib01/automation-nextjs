@@ -113,54 +113,6 @@ const Automation = () => {
     // setSelectedNode(null);
   };
 
-  const addNewNodeBelow = (sourceNode, edgeId) => {
-    console.log("getting", sourceNode, edgeId);
-    const newNode = {
-      id: `${nodes.length + 1}`,
-      type: "email",
-      data: { label: `New Node ${nodes.length + 1}` },
-      position: { x: 0, y: 0 },
-    };
-    setNodes((nds) => nds.concat(newNode));
-
-    // Update edges
-    const updatedEdges = edges.map((edge) => {
-      if (edge.id === edgeId) {
-        return {
-          ...edge,
-          target: newNode.id,
-        };
-      }
-      return edge;
-    });
-
-    // setEdges((eds) => eds.concat(updatedEdges));
-
-    // Set the new edges
-    // Set the new edges using concat
-    // setEdges((eds) =>
-    //   eds.concat({
-    //     id: `e${newNode.id}-${sourceNode.id}`,
-    //     source: newNode.id,
-    //     target: sourceNode.id,
-    //     type: "custom",
-    //     data: { onEdgeButtonClick },
-    //   })
-    // );
-
-    // setEdges([
-    //   ...updatedEdges,
-    //   {
-    //     id: `e${newNode.id}-${sourceNode.id}`,
-    //     source: newNode.id,
-    //     target: sourceNode.id,
-    //     animated: true,
-    //     type: "custom",
-    //     data: { onEdgeButtonClick },
-    //   },
-    // ]);
-  };
-
   const addNewNode = (sourceNodeId, node) => {
     const cloneNode = _.cloneDeep(node);
     const { group, ...rest } = cloneNode;
