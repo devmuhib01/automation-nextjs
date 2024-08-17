@@ -113,30 +113,116 @@ const Automation = () => {
     // setSelectedNode(null);
   };
 
-  const addNewNode = (sourceNodeId, node) => {
+  // const addNewNode = (sourceNodeId, node) => {
+  //   const cloneNode = _.cloneDeep(node);
+  //   const { group, ...rest } = cloneNode;
+
+  //   const newNode = {
+  //     id: uuidv4(),
+  //     ...rest,
+  //     data: {
+  //       ...rest.data,
+  //       onDeleteNode,
+  //       onAddNode: addNewNode,
+  //     },
+  //     // position: { x: 0, y: 0 }, // position will be updated by layout
+  //   };
+
+  //   setNodes((nds) => nds.concat(newNode));
+  //   setEdges((eds) =>
+  //     eds.concat({
+  //       id: `e${sourceNodeId}-${newNode.id}`,
+  //       source: sourceNodeId,
+  //       type: newNode.type !== "condition" && "custom",
+  //       target: newNode.id,
+  //     })
+  //   );
+  // };
+
+  const addNewNode = (sourceNodeId, sourceNodeType, node) => {
     const cloneNode = _.cloneDeep(node);
     const { group, ...rest } = cloneNode;
 
-    const newNode = {
-      id: uuidv4(),
-      ...rest,
-      data: {
-        ...rest.data,
-        onDeleteNode,
-        onAddNode: addNewNode,
-      },
-      // position: { x: 0, y: 0 }, // position will be updated by layout
-    };
+    const newNodeId = uuidv4();
+    setNodes((currentNodes) => {
+      const newNode = {
+        id: newNodeId,
+        ...rest,
+        data: {
+          ...rest.data,
+          onDeleteNode,
+          onAddNode: addNewNode,
+        },
+        // position: { x: 0, y: 0 }, // position will be updated by layout
+      };
 
-    setNodes((nds) => nds.concat(newNode));
-    setEdges((eds) =>
-      eds.concat({
-        id: `e${sourceNodeId}-${newNode.id}`,
-        source: sourceNodeId,
-        type: newNode.type !== "condition" && "custom",
-        target: newNode.id,
-      })
-    );
+      // Find the index of the source node in the current nodes array
+      const sourceNodeIndex = currentNodes.findIndex(
+        (node) => node.id === sourceNodeId
+      );
+
+      // Slice the nodes to insert the new node after the source node
+      const updatedNodes = [
+        ...currentNodes.slice(0, sourceNodeIndex + 1),
+        newNode,
+        ...currentNodes.slice(sourceNodeIndex + 1),
+      ];
+
+      return updatedNodes;
+    });
+
+    setEdges((currentEdges) => {
+      // Find all edges where the source is the sourceNodeId
+      const sourceEdges = currentEdges.filter(
+        (edge) => edge.source === sourceNodeId
+      );
+
+      let newEdges = [];
+
+      if (sourceEdges.length > 0 && sourceNodeType !== "ifElse") {
+        // For each edge, replace the target with the new node, and create a new edge
+        sourceEdges.forEach((edge) => {
+          const originalTarget = edge.target;
+
+          // New edge from sourceNodeId to newNodeId
+          const newEdge1 = {
+            id: `e${sourceNodeId}-${newNodeId}`,
+            source: sourceNodeId,
+            target: newNodeId,
+            type: "custom",
+          };
+
+          // New edge from newNodeId to the original target
+          const newEdge2 = {
+            id: `e${newNodeId}-${originalTarget}`,
+            source: newNodeId,
+            target: originalTarget,
+            type: "custom",
+          };
+
+          // Replace the original edge with the two new edges
+          newEdges.push(newEdge1, newEdge2);
+        });
+
+        // Filter out the original edges and add the new ones
+        return currentEdges
+          .filter((edge) => edge.source !== sourceNodeId)
+          .concat(newEdges);
+      } else {
+        // If there were no existing edges, create a new edge directly
+
+        console.log("else edge block");
+
+        const newEdge = {
+          id: `e${sourceNodeId}-${newNodeId}`,
+          source: sourceNodeId,
+          target: newNodeId,
+          type: "custom",
+        };
+
+        return [...currentEdges, newEdge];
+      }
+    });
   };
 
   const onEdgeButtonClick = (edgeId) => {

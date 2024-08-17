@@ -29,7 +29,7 @@ export const initialNodes = [
 ];
 
 export const initialEdges = [
-  { id: "e1-1", source: "1", target: "2", type: "custom" },
+  { id: "e1-2", source: "1", target: "2", type: "custom" },
 ];
 
 export const nodeTypeOptions = [

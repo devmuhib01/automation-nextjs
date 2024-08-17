@@ -53,7 +53,7 @@ const NodesList = () => {
               key={index}
               onClick={(e) => {
                 e.stopPropagation();
-                sourceNode.data.onAddNode(sourceNode.id, node);
+                sourceNode.data.onAddNode(sourceNode.id, sourceNode.type, node);
               }}
               className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
             >
@@ -85,7 +85,11 @@ const NodesList = () => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      sourceNode.data.onAddNode(sourceNode.id, node);
+                      sourceNode.data.onAddNode(
+                        sourceNode.id,
+                        sourceNode.type,
+                        node
+                      );
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
@@ -115,7 +119,11 @@ const NodesList = () => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      sourceNode.data.onAddNode(sourceNode.id, node);
+                      sourceNode.data.onAddNode(
+                        sourceNode.id,
+                        sourceNode.type,
+                        node
+                      );
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
@@ -144,7 +152,11 @@ const NodesList = () => {
                     key={index}
                     onClick={(e) => {
                       e.stopPropagation();
-                      sourceNode.data.onAddNode(sourceNode.id, node);
+                      sourceNode.data.onAddNode(
+                        sourceNode.id,
+                        sourceNode.type,
+                        node
+                      );
                     }}
                     className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
                   >
