@@ -9,7 +9,6 @@ import {
   useEdgesState,
   addEdge,
   Controls,
-  Handle,
   Panel,
   useReactFlow,
   ReactFlowProvider,
@@ -35,6 +34,7 @@ const Automation = () => {
     }));
 
   const [rfInstance, setRfInstance] = useState(null);
+  const { setViewport } = useReactFlow();
 
   useEffect(() => {
     const layoutNodes = () => {
@@ -140,7 +140,6 @@ const Automation = () => {
   };
 
   const onEdgeButtonClick = (edgeId) => {
-    // Handle the logic to open the sidebar and add a new node
     const edge = edges.find((e) => e.id === edgeId);
     if (edge) {
       const sourceNode = nodes.find((n) => n.id === edge.source);
@@ -149,7 +148,7 @@ const Automation = () => {
         ...sourceNode,
         data: { ...sourceNode.data, onDeleteNode, onAddNode: addNewNode },
       });
-      // addNewNodeBelow(sourceNode, edgeId);
+
       console.log("clicked edge", sourceNode, edgeId);
     }
   };
@@ -169,12 +168,12 @@ const Automation = () => {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
-        // setViewport({ x, y, zoom });
+        setViewport({ x, y, zoom });
       }
     };
 
     restoreFlow();
-  }, [setNodes]);
+  }, [setNodes, setViewport]);
 
   useEffect(() => {
     if (selectedNode) {
@@ -189,42 +188,45 @@ const Automation = () => {
   }, [selectedNode]);
 
   return (
-    <ReactFlowProvider>
-      <div style={{ display: "flex" }}>
-        <div className="automation__canvas w-full h-[900px]">
-          <ReactFlow
-            nodes={nodes.map((node) => ({
-              ...node,
-              data: {
-                ...node.data,
-                onDeleteNode,
-                onAddNode: addNewNode,
-              },
-            }))}
-            edges={edges.map((edge) => ({
-              ...edge,
-              data: { onEdgeButtonClick },
-            }))}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setRfInstance}
-            onNodeClick={onNodeClick}
-            fitView
-          >
-            <Controls />
-            <Background color="#aaa" />
-            <Panel position="top-right">
-              <button onClick={onSave}>save</button>
-              <button onClick={onRestore}>restore</button>
-            </Panel>
-          </ReactFlow>
-        </div>
+    <div style={{ display: "flex" }}>
+      <div className="automation__canvas w-full h-[900px]">
+        <ReactFlow
+          nodes={nodes.map((node) => ({
+            ...node,
+            data: {
+              ...node.data,
+              onDeleteNode,
+              onAddNode: addNewNode,
+            },
+          }))}
+          edges={edges.map((edge) => ({
+            ...edge,
+            data: { onEdgeButtonClick },
+          }))}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onInit={setRfInstance}
+          onNodeClick={onNodeClick}
+          fitView
+          fitViewOptions={{ padding: 2 }}
+        >
+          <Controls />
+          <Background color="#aaa" />
+          <Panel position="top-right">
+            <button onClick={onSave}>save</button>
+            <button onClick={onRestore}>restore</button>
+          </Panel>
+        </ReactFlow>
       </div>
-    </ReactFlowProvider>
+    </div>
   );
 };
 
-export default Automation;
+export default () => (
+  <ReactFlowProvider>
+    <Automation />
+  </ReactFlowProvider>
+);
