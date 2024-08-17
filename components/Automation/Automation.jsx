@@ -181,6 +181,7 @@ const Automation = () => {
       eds.concat({
         id: `e${sourceNodeId}-${newNode.id}`,
         source: sourceNodeId,
+        type: newNode.type !== "condition" && "custom",
         target: newNode.id,
       })
     );
@@ -250,7 +251,6 @@ const Automation = () => {
             }))}
             edges={edges.map((edge) => ({
               ...edge,
-              type: "custom",
               data: { onEdgeButtonClick },
             }))}
             nodeTypes={nodeTypes}

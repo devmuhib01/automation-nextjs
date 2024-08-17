@@ -10,6 +10,7 @@ import AddPipeline from "@/assets/Svg/AddPipeline";
 import RemovePipeline from "@/assets/Svg/RemovePipeline";
 import AssignTask from "@/assets/Svg/AssignTask";
 import SendEmail from "@/assets/Svg/SendEmail";
+import IfElse from "@/assets/Svg/IfElse";
 
 export const initialNodes = [
   {
@@ -27,9 +28,17 @@ export const initialNodes = [
   },
 ];
 
-export const initialEdges = [{ id: "e1-1", source: "1", target: "2" }];
+export const initialEdges = [
+  { id: "e1-1", source: "1", target: "2", type: "custom" },
+];
 
 export const nodeTypeOptions = [
+  {
+    group: "contact",
+    type: "ifElse",
+    data: { label: "Condition" },
+    position: { x: 0, y: 0 },
+  },
   {
     group: "contact",
     type: "contact",
@@ -109,6 +118,7 @@ export const nodeTypeOptions = [
 ];
 
 export const nodesIcon = {
+  ifElse: { icon: <IfElse />, bg: "#F2F5F5" },
   contact: { icon: <CreateContactIcon />, bg: "#F2F5F5" },
   updateContact: { icon: <UpdateContactIcon />, bg: "#F2F5F5" },
   addToList: { icon: <AddList />, bg: "#F2F5F5" },

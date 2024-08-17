@@ -12,6 +12,7 @@ import RemoveTagNode from "@/components/Nodes/RemoveTagNode";
 import UpdateContactNode from "@/components/Nodes/UpdateContactNode";
 import PipelineStageNode from "@/components/Nodes/PipelineStageNode";
 import EmailNode from "@/components/Nodes/EmailNode";
+import IfElseCondition from "@/components/Nodes/IfElseCondition";
 
 export const nodeTypes = {
   input: InputNode,
@@ -28,4 +29,5 @@ export const nodeTypes = {
   pipelineStageChange: PipelineStageNode,
   email: EmailNode,
   end: EndNode,
+  ifElse: IfElseCondition,
 };
