@@ -215,7 +215,7 @@ const Automation = () => {
       }
 
       if (sourceNodeType === "ifElse") {
-        endId2 = "end2" + nodes.length + 1;
+        endId2 = "end2" + newNodeId;
 
         const endNode2 = {
           id: endId2,

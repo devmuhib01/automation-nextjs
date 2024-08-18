@@ -35,12 +35,6 @@ export const initialEdges = [
 export const nodeTypeOptions = [
   {
     group: "contact",
-    type: "ifElse",
-    data: { label: "Condition" },
-    position: { x: 0, y: 0 },
-  },
-  {
-    group: "contact",
     type: "contact",
     data: { label: "Contact Created" },
     position: { x: 0, y: 0 },
@@ -113,6 +107,13 @@ export const nodeTypeOptions = [
     group: "email",
     type: "email",
     data: { label: "Send an Email" },
+    position: { x: 0, y: 0 },
+  },
+
+  {
+    group: "condition",
+    type: "ifElse",
+    data: { label: "Condition" },
     position: { x: 0, y: 0 },
   },
 ];

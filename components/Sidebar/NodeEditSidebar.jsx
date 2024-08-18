@@ -49,7 +49,7 @@ const NodeEditSidebar = ({ trigger }) => {
             <EditAddToList />
 
             {selectedNode.type === "ifElse" && (
-              <button
+              <Button
                 onClick={() =>
                   selectedNode.data.onAddNode(
                     selectedNode.id,
@@ -65,7 +65,7 @@ const NodeEditSidebar = ({ trigger }) => {
                 }
               >
                 add branch
-              </button>
+              </Button>
             )}
           </div>
 

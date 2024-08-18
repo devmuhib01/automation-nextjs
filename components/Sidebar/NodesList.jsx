@@ -173,6 +173,39 @@ const NodesList = () => {
                 ))}
             </ul>
           </div>
+          <div>
+            <p className="text-[14px] leading-[22px] font-bold text-[#3E3F3F] uppercase my-4">
+              Condition
+            </p>
+            <ul className="flex flex-col gap-3">
+              {nodeTypeOptions
+                .filter((node) => node.group === "condition")
+                .map((node, index) => (
+                  <li
+                    key={index}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      sourceNode.data.onAddNode(
+                        sourceNode.id,
+                        sourceNode.type,
+                        node
+                      );
+                    }}
+                    className="p-2 rounded-lg border flex items-center gap-3.5 cursor-pointer"
+                  >
+                    <span
+                      style={{ background: nodesIcon[node.type].bg }}
+                      className="w-[35px] h-[35px] flex items-center justify-center rounded"
+                    >
+                      {nodesIcon[node.type].icon}
+                    </span>
+                    <p className="text-[14px] leading-6 text-[#3E3F3F] font-medium">
+                      {node.data.label}
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       )}
 
