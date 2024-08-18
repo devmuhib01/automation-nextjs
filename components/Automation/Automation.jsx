@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 import _ from "lodash";
 import { useAutomationFlowStore } from "@/store/automationFlowStore";
 import { edgeTypes } from "@/constants/edgeTypes";
+import { Button } from "@/components/ui/button";
 
 const Automation = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -409,8 +410,10 @@ const Automation = () => {
           <Controls />
           <Background color="#aaa" />
           <Panel position="top-right">
-            <button onClick={onSave}>save</button>
-            <button onClick={onRestore}>restore</button>
+            <Button onClick={onSave} className="mr-3">
+              save
+            </Button>
+            <Button onClick={onRestore}>restore</Button>
           </Panel>
         </ReactFlow>
       </div>
