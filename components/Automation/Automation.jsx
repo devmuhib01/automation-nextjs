@@ -86,57 +86,70 @@ const Automation = () => {
   };
 
   const onDeleteNode = (nodeId) => {
-    // this code will be removed the specific node
-    // setNodes((nds) => nds.filter((node) => node.id !== nodeId));
-    // setEdges((eds) =>
-    //   eds.filter((edge) => edge.source !== nodeId && edge.target !== nodeId)
-    // );
+    const findAllSubsequentNodes = (currentNodeId, allEdges) => {
+      const directChildNodes = allEdges
+        .filter((edge) => edge.source === currentNodeId)
+        .map((edge) => edge.target);
 
-    // this code will be removed all the edges connected to the specific node
-    const targetNodes = edges
-      .filter((edge) => edge.source === nodeId)
-      .map((edge) => edge.target);
+      let allSubsequentNodes = [...directChildNodes];
 
-    setNodes((nds) =>
-      nds.filter((node) => node.id !== nodeId && !targetNodes.includes(node.id))
-    );
-    setEdges((eds) =>
-      eds.filter(
+      // Recursively find all child nodes
+      directChildNodes.forEach((childNodeId) => {
+        allSubsequentNodes = [
+          ...allSubsequentNodes,
+          ...findAllSubsequentNodes(childNodeId, allEdges),
+        ];
+      });
+
+      return allSubsequentNodes;
+    };
+
+    // Find the previous node that connects to the node being deleted
+    const previousNodeId = edges.find((edge) => edge.target === nodeId)?.source;
+
+    // Get all nodes connected to the node being deleted
+    const subsequentNodes = findAllSubsequentNodes(nodeId, edges);
+
+    // Create a new "end" node
+    const newEndNodeId = `end-${uuidv4()}`;
+    const newEndNode = {
+      id: newEndNodeId,
+      type: "end",
+      data: { label: "End" },
+      position: { x: 0, y: 0 }, // Update with appropriate position
+    };
+
+    // Update nodes and edges
+    setNodes((nds) => [
+      ...nds.filter(
+        (node) => node.id !== nodeId && !subsequentNodes.includes(node.id)
+      ),
+      newEndNode,
+    ]);
+
+    setEdges((eds) => {
+      // Filter out the edges connected to the node and its subsequent nodes
+      const filteredEdges = eds.filter(
         (edge) =>
           edge.source !== nodeId &&
           edge.target !== nodeId &&
-          !targetNodes.includes(edge.target)
-      )
-    );
+          !subsequentNodes.includes(edge.target)
+      );
 
-    // setSelectedNode(null);
+      // Create a new edge from the previous node to the new end node
+      if (previousNodeId) {
+        const newEdge = {
+          id: `e${previousNodeId}-${newEndNodeId}`,
+          source: previousNodeId,
+          target: newEndNodeId,
+          type: "custom",
+        };
+        return [...filteredEdges, newEdge];
+      }
+
+      return filteredEdges;
+    });
   };
-
-  // const addNewNode = (sourceNodeId, node) => {
-  //   const cloneNode = _.cloneDeep(node);
-  //   const { group, ...rest } = cloneNode;
-
-  //   const newNode = {
-  //     id: uuidv4(),
-  //     ...rest,
-  //     data: {
-  //       ...rest.data,
-  //       onDeleteNode,
-  //       onAddNode: addNewNode,
-  //     },
-  //     // position: { x: 0, y: 0 }, // position will be updated by layout
-  //   };
-
-  //   setNodes((nds) => nds.concat(newNode));
-  //   setEdges((eds) =>
-  //     eds.concat({
-  //       id: `e${sourceNodeId}-${newNode.id}`,
-  //       source: sourceNodeId,
-  //       type: newNode.type !== "condition" && "custom",
-  //       target: newNode.id,
-  //     })
-  //   );
-  // };
 
   const addNewNode = (sourceNodeId, sourceNodeType, node) => {
     const cloneNode = _.cloneDeep(node);
