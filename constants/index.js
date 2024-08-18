@@ -11,6 +11,8 @@ import RemovePipeline from "@/assets/Svg/RemovePipeline";
 import AssignTask from "@/assets/Svg/AssignTask";
 import SendEmail from "@/assets/Svg/SendEmail";
 import IfElse from "@/assets/Svg/IfElse";
+import EditAddToList from "@/components/Sidebar/NodeEditComponents/EditAddToList";
+import EditIfElseCondition from "@/components/Sidebar/NodeEditComponents/EditIfElseCondition";
 
 export const initialNodes = [
   {
@@ -132,4 +134,9 @@ export const nodesIcon = {
   removePipeline: { icon: <RemovePipeline />, bg: "#F2F5F5" },
   pipelineStageChange: { icon: <AddPipeline />, bg: "#F2F5F5" },
   email: { icon: <SendEmail />, bg: "#F2F5F5" },
+};
+
+export const getNodeEditComponent = {
+  addToList: <EditAddToList />,
+  ifElse: <EditIfElseCondition />,
 };

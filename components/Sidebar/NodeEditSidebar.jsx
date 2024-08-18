@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
-import EditAddToList from "@/components/Sidebar/NodeEditOptions/EditAddToList";
 import { useAutomationFlowStore } from "@/store/automationFlowStore";
+import { getNodeEditComponent } from "@/constants/index";
 
 const NodeEditSidebar = ({ trigger }) => {
   const { selectedNode } = useAutomationFlowStore((state) => ({
@@ -46,32 +46,14 @@ const NodeEditSidebar = ({ trigger }) => {
             </SheetDescription>
           </SheetHeader>
           <div className="px-5 py-4 border-t ">
-            <EditAddToList />
+            {getNodeEditComponent[selectedNode.type]}
 
-            {selectedNode.type === "ifElse" && (
-              <Button
-                onClick={() =>
-                  selectedNode.data.onAddNode(
-                    selectedNode.id,
-                    selectedNode.type,
-                    {
-                      type: "condition",
-                      data: {
-                        label: "New condition",
-                      },
-                      position: { x: 0, y: 0 },
-                    }
-                  )
-                }
-              >
-                add branch
-              </Button>
-            )}
+           
           </div>
 
           <SheetFooter className={clsx("p-5 border-t justify-start space-x-0")}>
             <div className="flex items-center justify-between w-full">
-              {selectedNode.type !== "input" && (
+              {selectedNode.type !== "input" && selectedNode.type !== "end" && (
                 <Button
                   type="button"
                   variant="delete"

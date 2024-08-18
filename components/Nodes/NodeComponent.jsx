@@ -7,7 +7,7 @@ import NodeEditSidebar from "../Sidebar/NodeEditSidebar";
 
 const NodeComponent = ({ id, data, type }) => {
   const NodeComponent = (
-    <div className="node__item">
+    <div className="node__item nodrag">
       {nodesIcon[type]?.icon && (
         <span
           style={{ background: nodesIcon[type]?.bg }}
