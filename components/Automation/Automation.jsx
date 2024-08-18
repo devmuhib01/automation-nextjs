@@ -82,6 +82,13 @@ const Automation = () => {
   }, []);
 
   const onNodeClick = (event, node) => {
+
+    const targets = edges
+        .filter(item => item.source === node.id)
+        .map(item => item.target);
+
+    console.log(targets)
+
     event.stopPropagation();
     setSelectedNode(node);
   };
@@ -336,7 +343,11 @@ const Automation = () => {
   };
 
   const onEdgeButtonClick = (edgeId) => {
+
     const edge = edges.find((e) => e.id === edgeId);
+
+    console.log(edge)
+
     if (edge) {
       const sourceNode = nodes.find((n) => n.id === edge.source);
 
@@ -382,42 +393,50 @@ const Automation = () => {
   }, [selectedNode]);
 
   return (
-    <div style={{ display: "flex" }}>
-      <div className="automation__canvas w-full h-[900px]">
-        <ReactFlow
-          nodes={nodes.map((node) => ({
-            ...node,
-            data: {
-              ...node.data,
-              onDeleteNode,
-              onAddNode: addNewNode,
-            },
-          }))}
-          edges={edges.map((edge) => ({
-            ...edge,
-            data: { onEdgeButtonClick },
-          }))}
-          nodeTypes={nodeTypes}
-          edgeTypes={edgeTypes}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onInit={setRfInstance}
-          onNodeClick={onNodeClick}
-          fitView
-          fitViewOptions={{ padding: 2 }}
-        >
-          <Controls />
-          <Background color="#aaa" />
-          <Panel position="top-right">
-            <Button onClick={onSave} className="mr-3">
-              save
-            </Button>
-            <Button onClick={onRestore}>restore</Button>
-          </Panel>
-        </ReactFlow>
+      <div>
+
+        <p>{JSON.stringify(nodes)}</p>
+        <p>{JSON.stringify(edges)}</p>
+
+  <div style={{display: "flex"}}>
+
+  <div className="automation__canvas w-full h-[900px]">
+          <ReactFlow
+              nodes={nodes.map((node) => ({
+                ...node,
+                data: {
+                  ...node.data,
+                  onDeleteNode,
+                  onAddNode: addNewNode,
+                },
+              }))}
+              edges={edges.map((edge) => ({
+                ...edge,
+                data: {onEdgeButtonClick},
+              }))}
+              nodeTypes={nodeTypes}
+              edgeTypes={edgeTypes}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              onInit={setRfInstance}
+              onNodeClick={onNodeClick}
+              fitView
+              fitViewOptions={{padding: 2}}
+          >
+            <Controls/>
+            <Background color="#aaa"/>
+            <Panel position="top-right">
+              <Button onClick={onSave} className="mr-3">
+                save
+              </Button>
+              <Button onClick={onRestore}>restore</Button>
+            </Panel>
+          </ReactFlow>
+        </div>
       </div>
-    </div>
+
+      </div>
   );
 };
 
