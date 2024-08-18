@@ -81,7 +81,6 @@ const Automation = () => {
   }, []);
 
   const onNodeClick = (event, node) => {
-    console.log(node, "node");
     event.stopPropagation();
     setSelectedNode(node);
   };
@@ -146,6 +145,7 @@ const Automation = () => {
     let conditionId1;
     let conditionId2;
     let endId1;
+    let endId2;
 
     const newNodeId = uuidv4();
     setNodes((currentNodes) => {
@@ -212,6 +212,19 @@ const Automation = () => {
           conditionNode2,
           endNode1,
         ];
+      }
+
+      if (sourceNodeType === "ifElse") {
+        endId2 = "end2" + nodes.length + 1;
+
+        const endNode2 = {
+          id: endId2,
+          type: "end",
+          data: { label: "End" },
+          position: { x: 0, y: 0 },
+        };
+
+        updatedNodes = [...updatedNodes, endNode2];
       }
 
       return updatedNodes;
@@ -293,10 +306,17 @@ const Automation = () => {
           id: `e${sourceNodeId}-${newNodeId}`,
           source: sourceNodeId,
           target: newNodeId,
+          // type: "custom",
+        };
+
+        const newEdge2 = {
+          id: `e${newNodeId}-${endId2}`,
+          source: newNodeId,
+          target: endId2,
           type: "custom",
         };
 
-        return [...currentEdges, newEdge];
+        return [...currentEdges, newEdge, newEdge2];
       }
     });
   };

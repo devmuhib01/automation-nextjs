@@ -47,6 +47,26 @@ const NodeEditSidebar = ({ trigger }) => {
           </SheetHeader>
           <div className="px-5 py-4 border-t ">
             <EditAddToList />
+
+            {selectedNode.type === "ifElse" && (
+              <button
+                onClick={() =>
+                  selectedNode.data.onAddNode(
+                    selectedNode.id,
+                    selectedNode.type,
+                    {
+                      type: "condition",
+                      data: {
+                        label: "New condition",
+                      },
+                      position: { x: 0, y: 0 },
+                    }
+                  )
+                }
+              >
+                add branch
+              </button>
+            )}
           </div>
 
           <SheetFooter className={clsx("p-5 border-t justify-start space-x-0")}>
