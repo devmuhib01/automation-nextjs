@@ -156,10 +156,10 @@ const Automation = () => {
     const cloneNode = _.cloneDeep(node);
     const { group, ...rest } = cloneNode;
 
-    let conditionId1;
-    let conditionId2;
-    let endId1;
-    let endId2;
+    let conditionNodeId1;
+    let conditionNodeId2;
+    let endNodeId1;
+    let endNodeId2;
 
     const newNodeId = uuidv4();
     setNodes((currentNodes) => {
@@ -188,12 +188,12 @@ const Automation = () => {
 
       if (node.type === "ifElse") {
         // Create condition and end nodes
-        conditionId1 = "condition1" + nodes.length + 1;
-        conditionId2 = "condition1" + nodes.length + 2;
-        endId1 = "end1" + nodes.length + 1;
+        conditionNodeId1 = "condition1" + nodes.length + 1;
+        conditionNodeId2 = "condition1" + nodes.length + 2;
+        endNodeId1 = "end1" + nodes.length + 1;
 
         const conditionNode1 = {
-          id: conditionId1,
+          id: conditionNodeId1,
           type: "condition",
           data: {
             label: "Condition 1",
@@ -203,7 +203,7 @@ const Automation = () => {
           position: { x: 0, y: 0 },
         };
         const conditionNode2 = {
-          id: conditionId2,
+          id: conditionNodeId2,
           type: "condition",
           data: {
             label: "Condition 2",
@@ -214,7 +214,7 @@ const Automation = () => {
         };
 
         const endNode1 = {
-          id: endId1,
+          id: endNodeId1,
           type: "end",
           data: { label: "End" },
           position: { x: 0, y: 0 },
@@ -229,10 +229,10 @@ const Automation = () => {
       }
 
       if (sourceNodeType === "ifElse") {
-        endId2 = "end2" + newNodeId;
+        endNodeId2 = "end2" + newNodeId;
 
         const endNode2 = {
-          id: endId2,
+          id: endNodeId2,
           type: "end",
           data: { label: "End" },
           position: { x: 0, y: 0 },
@@ -279,25 +279,25 @@ const Automation = () => {
 
           if (node.type === "ifElse") {
             newEdge3 = {
-              id: `e${newNodeId}-${conditionId1}`,
+              id: `e${newNodeId}-${conditionNodeId1}`,
               source: newNodeId,
-              target: conditionId1,
+              target: conditionNodeId1,
               // type: "custom",
             };
 
             newEdge4 = {
-              id: `e${newNodeId}-${conditionId2}`,
+              id: `e${newNodeId}-${conditionNodeId2}`,
               source: newNodeId,
-              target: conditionId2,
+              target: conditionNodeId2,
               // type: "custom",
             };
 
             newEdge2.source = newEdge3.target;
 
             newEdge5 = {
-              id: `e${conditionId2}-${endId1}`,
-              source: conditionId2,
-              target: endId1,
+              id: `e${conditionNodeId2}-${endNodeId1}`,
+              source: conditionNodeId2,
+              target: endNodeId1,
               type: "custom",
             };
           }
@@ -324,9 +324,9 @@ const Automation = () => {
         };
 
         const newEdge2 = {
-          id: `e${newNodeId}-${endId2}`,
+          id: `e${newNodeId}-${endNodeId2}`,
           source: newNodeId,
-          target: endId2,
+          target: endNodeId2,
           type: "custom",
         };
 
