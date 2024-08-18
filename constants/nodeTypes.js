@@ -13,6 +13,7 @@ import UpdateContactNode from "@/components/Nodes/UpdateContactNode";
 import PipelineStageNode from "@/components/Nodes/PipelineStageNode";
 import EmailNode from "@/components/Nodes/EmailNode";
 import IfElseCondition from "@/components/Nodes/IfElseCondition";
+import Condition from "@/components/Nodes/Condition";
 
 export const nodeTypes = {
   input: InputNode,
@@ -30,4 +31,5 @@ export const nodeTypes = {
   email: EmailNode,
   end: EndNode,
   ifElse: IfElseCondition,
+  condition: Condition,
 };

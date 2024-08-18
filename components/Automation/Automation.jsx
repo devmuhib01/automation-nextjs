@@ -143,6 +143,10 @@ const Automation = () => {
     const cloneNode = _.cloneDeep(node);
     const { group, ...rest } = cloneNode;
 
+    let conditionId1;
+    let conditionId2;
+    let endId1;
+
     const newNodeId = uuidv4();
     setNodes((currentNodes) => {
       const newNode = {
@@ -162,11 +166,53 @@ const Automation = () => {
       );
 
       // Slice the nodes to insert the new node after the source node
-      const updatedNodes = [
+      let updatedNodes = [
         ...currentNodes.slice(0, sourceNodeIndex + 1),
         newNode,
         ...currentNodes.slice(sourceNodeIndex + 1),
       ];
+
+      if (node.type === "ifElse") {
+        // Create condition and end nodes
+        conditionId1 = "condition1" + nodes.length + 1;
+        conditionId2 = "condition1" + nodes.length + 2;
+        endId1 = "end1" + nodes.length + 1;
+
+        const conditionNode1 = {
+          id: conditionId1,
+          type: "condition",
+          data: {
+            label: "Condition 1",
+            onDeleteNode,
+            onAddNode: addNewNode,
+          },
+          position: { x: 0, y: 0 },
+        };
+        const conditionNode2 = {
+          id: conditionId2,
+          type: "condition",
+          data: {
+            label: "Condition 2",
+            onDeleteNode,
+            onAddNode: addNewNode,
+          },
+          position: { x: 0, y: 0 },
+        };
+
+        const endNode1 = {
+          id: endId1,
+          type: "end",
+          data: { label: "End" },
+          position: { x: 0, y: 0 },
+        };
+
+        updatedNodes = [
+          ...updatedNodes,
+          conditionNode1,
+          conditionNode2,
+          endNode1,
+        ];
+      }
 
       return updatedNodes;
     });
@@ -200,8 +246,41 @@ const Automation = () => {
             type: "custom",
           };
 
-          // Replace the original edge with the two new edges
-          newEdges.push(newEdge1, newEdge2);
+          let newEdge3;
+          let newEdge4;
+          let newEdge5;
+
+          if (node.type === "ifElse") {
+            newEdge3 = {
+              id: `e${newNodeId}-${conditionId1}`,
+              source: newNodeId,
+              target: conditionId1,
+              // type: "custom",
+            };
+
+            newEdge4 = {
+              id: `e${newNodeId}-${conditionId2}`,
+              source: newNodeId,
+              target: conditionId2,
+              // type: "custom",
+            };
+
+            newEdge2.source = newEdge3.target;
+
+            newEdge5 = {
+              id: `e${conditionId2}-${endId1}`,
+              source: conditionId2,
+              target: endId1,
+              type: "custom",
+            };
+          }
+
+          if (newEdge3 && newEdge4 && newEdge5) {
+            newEdges.push(newEdge1, newEdge2, newEdge3, newEdge4, newEdge5);
+          } else {
+            console.log("Error: IfElse edge block not found");
+            newEdges.push(newEdge1, newEdge2);
+          }
         });
 
         // Filter out the original edges and add the new ones
@@ -210,9 +289,6 @@ const Automation = () => {
           .concat(newEdges);
       } else {
         // If there were no existing edges, create a new edge directly
-
-        console.log("else edge block");
-
         const newEdge = {
           id: `e${sourceNodeId}-${newNodeId}`,
           source: sourceNodeId,
@@ -234,8 +310,6 @@ const Automation = () => {
         ...sourceNode,
         data: { ...sourceNode.data, onDeleteNode, onAddNode: addNewNode },
       });
-
-      console.log("clicked edge", sourceNode, edgeId);
     }
   };
 
