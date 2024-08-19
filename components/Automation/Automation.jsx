@@ -35,6 +35,7 @@ const Automation = () => {
     }));
 
   const [rfInstance, setRfInstance] = useState(null);
+  const [tempSelectedNode, setTempSelectedNode] = useState(null);
   const { setViewport } = useReactFlow();
 
   useEffect(() => {
@@ -197,6 +198,7 @@ const Automation = () => {
     let conditionNodeId2;
     let endNodeId1;
     let endNodeId2;
+    let tempNodes;
 
     const newNodeId = uuidv4();
     setNodes((currentNodes) => {
@@ -279,6 +281,7 @@ const Automation = () => {
         updatedNodes = [...updatedNodes, endNode2];
       }
 
+      tempNodes = updatedNodes;
       return updatedNodes;
     });
 
@@ -368,10 +371,33 @@ const Automation = () => {
           type: "custom",
         };
 
-        return [...currentEdges, newEdge, newEdge2];
+        let updatedEds = [...currentEdges, newEdge, newEdge2];
+
+        const sourceNode = tempNodes.find((node) => node.id === sourceNodeId);
+
+        // after adding new condition to the if else state update the selected state children
+        if (sourceNode) {
+          const targets = updatedEds
+            .filter((item) => item.source === sourceNodeId)
+            .map((item) => item.target);
+
+          const children = targets.map((item) =>
+            tempNodes.find((node) => item === node.id)
+          );
+
+          setTempSelectedNode({ ...sourceNode, children: children });
+        }
+
+        return updatedEds;
       }
     });
   };
+
+  useEffect(() => {
+    if (tempSelectedNode) {
+      setSelectedNode(tempSelectedNode);
+    }
+  }, [tempSelectedNode]);
 
   const onEdgeButtonClick = (edgeId) => {
     const edge = edges.find((e) => e.id === edgeId);
