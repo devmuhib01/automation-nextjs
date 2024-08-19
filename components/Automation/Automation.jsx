@@ -82,13 +82,20 @@ const Automation = () => {
   }, []);
 
   const onNodeClick = (event, node) => {
-    const targets = edges
-      .filter((item) => item.source === node.id)
-      .map((item) => item.target);
-
-    console.log(targets);
-
     event.stopPropagation();
+
+    if (node.type === "ifElse") {
+      const targets = edges
+        .filter((item) => item.source === node.id)
+        .map((item) => item.target);
+
+      const children = targets.map((item) =>
+        nodes.find((node) => item === node.id)
+      );
+
+      return setSelectedNode({ ...node, children: children });
+    }
+
     setSelectedNode(node);
   };
 
@@ -208,6 +215,7 @@ const Automation = () => {
           },
           position: { x: 0, y: 0 },
         };
+
         const conditionNode2 = {
           id: conditionNodeId2,
           type: "condition",
@@ -378,13 +386,27 @@ const Automation = () => {
 
   useEffect(() => {
     if (selectedNode) {
+      // Find the main node by ID
       const node = nodes.find((n) => n.id === selectedNode.id);
 
       if (node) {
+        // Update the main node's data
         node.data = { ...node.data, ...selectedNode.data };
-      }
 
-      onNodesChange([node]);
+        // Check if the node is of type 'ifelse'
+        if (node.type === "ifElse" && selectedNode.children) {
+          // Find and update the child nodes in the nodes array
+          selectedNode.children.forEach((child) => {
+            const childNode = nodes.find((n) => n.id === child.id);
+            if (childNode) {
+              childNode.data = { ...childNode.data, ...child.data };
+            }
+          });
+        }
+
+        // Trigger the nodes change callback with all updated nodes
+        onNodesChange(nodes);
+      }
     }
   }, [selectedNode]);
 
