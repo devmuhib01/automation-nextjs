@@ -119,50 +119,74 @@ const Automation = () => {
     };
 
     // Find the previous node that connects to the node being deleted
-    const previousNodeId = edges.find((edge) => edge.target === nodeId)?.source;
+    const previousEdge = edges.find((edge) => edge.target === nodeId);
+    const previousNodeId = previousEdge?.source;
+    const previousNode = nodes.find((node) => node.id === previousNodeId);
 
     // Get all nodes connected to the node being deleted
     const subsequentNodes = findAllSubsequentNodes(nodeId, edges);
 
     // Create a new "end" node
     const newEndNodeId = `end-${uuidv4()}`;
-    const newEndNode = {
-      id: newEndNodeId,
-      type: "end",
-      data: { label: "End" },
-      position: { x: 0, y: 0 }, // Update with appropriate position
-    };
 
-    // Update nodes and edges
-    setNodes((nds) => [
-      ...nds.filter(
-        (node) => node.id !== nodeId && !subsequentNodes.includes(node.id)
-      ),
-      newEndNode,
-    ]);
+    if (previousNode && previousNode.type !== "ifElse") {
+      const newEndNode = {
+        id: newEndNodeId,
+        type: "end",
+        data: { label: "End" },
+        position: { x: 0, y: 0 }, // Update with appropriate position
+      };
 
-    setEdges((eds) => {
-      // Filter out the edges connected to the node and its subsequent nodes
-      const filteredEdges = eds.filter(
+      setNodes((nds) => [
+        ...nds.filter(
+          (node) => node.id !== nodeId && !subsequentNodes.includes(node.id)
+        ),
+        newEndNode,
+      ]);
+    } else {
+      setNodes((nds) => [
+        ...nds.filter(
+          (node) => node.id !== nodeId && !subsequentNodes.includes(node.id)
+        ),
+      ]);
+    }
+
+    const getFilteredEgdes = (eds) => {
+      return eds.filter(
         (edge) =>
           edge.source !== nodeId &&
           edge.target !== nodeId &&
           !subsequentNodes.includes(edge.target)
       );
+    };
 
-      // Create a new edge from the previous node to the new end node
-      if (previousNodeId) {
-        const newEdge = {
-          id: `e${previousNodeId}-${newEndNodeId}`,
-          source: previousNodeId,
-          target: newEndNodeId,
-          type: "custom",
-        };
-        return [...filteredEdges, newEdge];
-      }
+    // Update edges
+    if (previousNode && previousNode.type !== "ifElse") {
+      setEdges((eds) => {
+        // Filter out the edges connected to the node and its subsequent nodes
+        const filteredEdges = getFilteredEgdes(eds);
 
-      return filteredEdges;
-    });
+        // Create a new edge from the previous node to the new end node
+        if (previousNodeId) {
+          const newEdge = {
+            id: `e${previousNodeId}-${newEndNodeId}`,
+            source: previousNodeId,
+            target: newEndNodeId,
+            type: "custom",
+          };
+          return [...filteredEdges, newEdge];
+        }
+
+        return filteredEdges;
+      });
+    } else {
+      setEdges((eds) => {
+        // Filter out the edges connected to the node and its subsequent nodes
+        const filteredEdges = getFilteredEgdes(eds);
+
+        return filteredEdges;
+      });
+    }
   };
 
   const addNewNode = (sourceNodeId, sourceNodeType, node) => {
