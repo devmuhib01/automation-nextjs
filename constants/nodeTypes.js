@@ -17,7 +17,7 @@ import Condition from "@/components/Nodes/Condition";
 
 export const nodeTypes = {
   input: InputNode,
-  contact: CreateContactNode,
+  createContact: CreateContactNode,
   updateContact: UpdateContactNode,
   addToList: AddToListNode,
   moveToList: MoveToListNode,

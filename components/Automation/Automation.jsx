@@ -346,7 +346,6 @@ const Automation = () => {
           if (newEdge3 && newEdge4 && newEdge5) {
             newEdges.push(newEdge1, newEdge2, newEdge3, newEdge4, newEdge5);
           } else {
-            console.log("Error: IfElse edge block not found");
             newEdges.push(newEdge1, newEdge2);
           }
         });
@@ -480,7 +479,7 @@ const Automation = () => {
           edgeTypes={edgeTypes}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
+          // onConnect={onConnect}
           onInit={setRfInstance}
           onNodeClick={onNodeClick}
           fitView

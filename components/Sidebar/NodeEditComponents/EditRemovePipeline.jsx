@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { SelectItem } from "@/components/ui/select";
 import SelectBox from "@/components/Shared/SelectBox";
 
-const EditAddToList = () => {
+const EditRemovePipeline = () => {
   const { setSelectedNode, selectedNode } = useAutomationFlowStore((state) => ({
     setSelectedNode: state.setSelectedNode,
     selectedNode: state.selectedNode,
@@ -21,11 +21,10 @@ const EditAddToList = () => {
     }
   };
 
-  const selectChangeHandler = (value) => {
-    console.log(value);
+  const selectChangeHandler = (value, name) => {
     setSelectedNode({
       ...selectedNode,
-      data: { ...selectedNode.data, list: value },
+      data: { ...selectedNode.data, [name]: value },
     });
   };
 
@@ -48,19 +47,21 @@ const EditAddToList = () => {
         />
       </div>
 
-      <SelectBox
-        label={"List"}
-        value={selectedNode.data.list}
-        onChange={selectChangeHandler}
-      >
-        <SelectItem value="apple">Apple</SelectItem>
-        <SelectItem value="banana">Banana</SelectItem>
-        <SelectItem value="blueberry">Blueberry</SelectItem>
-        <SelectItem value="grapes">Grapes</SelectItem>
-        <SelectItem value="pineapple">Pineapple</SelectItem>
-      </SelectBox>
+      <div className="mb-4">
+        <SelectBox
+          label={"Pipeline"}
+          value={selectedNode.data.pipeline}
+          onChange={(value) => selectChangeHandler(value, "pipeline")}
+        >
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="blueberry">Blueberry</SelectItem>
+          <SelectItem value="grapes">Grapes</SelectItem>
+          <SelectItem value="pineapple">Pineapple</SelectItem>
+        </SelectBox>
+      </div>
     </div>
   );
 };
 
-export default EditAddToList;
+export default EditRemovePipeline;

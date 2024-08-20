@@ -3,10 +3,9 @@ import { Input } from "@/components/ui/input";
 import { useAutomationFlowStore } from "@/store/automationFlowStore";
 import clsx from "clsx";
 import { Label } from "@/components/ui/label";
-import { SelectItem } from "@/components/ui/select";
-import SelectBox from "@/components/Shared/SelectBox";
+import { Textarea } from "@/components/ui/textarea";
 
-const EditAddToList = () => {
+const EditAddNote = () => {
   const { setSelectedNode, selectedNode } = useAutomationFlowStore((state) => ({
     setSelectedNode: state.setSelectedNode,
     selectedNode: state.selectedNode,
@@ -19,14 +18,6 @@ const EditAddToList = () => {
         data: { ...selectedNode.data, [event.target.name]: event.target.value },
       });
     }
-  };
-
-  const selectChangeHandler = (value) => {
-    console.log(value);
-    setSelectedNode({
-      ...selectedNode,
-      data: { ...selectedNode.data, list: value },
-    });
   };
 
   return (
@@ -48,19 +39,24 @@ const EditAddToList = () => {
         />
       </div>
 
-      <SelectBox
-        label={"List"}
-        value={selectedNode.data.list}
-        onChange={selectChangeHandler}
-      >
-        <SelectItem value="apple">Apple</SelectItem>
-        <SelectItem value="banana">Banana</SelectItem>
-        <SelectItem value="blueberry">Blueberry</SelectItem>
-        <SelectItem value="grapes">Grapes</SelectItem>
-        <SelectItem value="pineapple">Pineapple</SelectItem>
-      </SelectBox>
+      <div>
+        <Label
+          className={clsx(
+            "text-[14px] leading-[22px] text-[#3E3F3F] font-medium mb-2 block"
+          )}
+        >
+          Notes
+        </Label>
+        <Textarea
+          name="note"
+          value={selectedNode.data.note}
+          onChange={onChangeHandler}
+          placeholder="Write here...."
+          className={clsx("focus-visible:ring-0 focus-visible:ring-offset-0")}
+        />
+      </div>
     </div>
   );
 };
 
-export default EditAddToList;
+export default EditAddNote;

@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { SelectItem } from "@/components/ui/select";
 import SelectBox from "@/components/Shared/SelectBox";
 
-const EditAddToList = () => {
+const EditAssignTask = () => {
   const { setSelectedNode, selectedNode } = useAutomationFlowStore((state) => ({
     setSelectedNode: state.setSelectedNode,
     selectedNode: state.selectedNode,
@@ -21,11 +21,10 @@ const EditAddToList = () => {
     }
   };
 
-  const selectChangeHandler = (value) => {
-    console.log(value);
+  const selectChangeHandler = (value, name) => {
     setSelectedNode({
       ...selectedNode,
-      data: { ...selectedNode.data, list: value },
+      data: { ...selectedNode.data, [name]: value },
     });
   };
 
@@ -48,10 +47,23 @@ const EditAddToList = () => {
         />
       </div>
 
+      <div className="mb-4">
+        <SelectBox
+          label={"Project"}
+          value={selectedNode.data.project}
+          onChange={(value) => selectChangeHandler(value, "project")}
+        >
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+          <SelectItem value="blueberry">Blueberry</SelectItem>
+          <SelectItem value="grapes">Grapes</SelectItem>
+          <SelectItem value="pineapple">Pineapple</SelectItem>
+        </SelectBox>
+      </div>
       <SelectBox
-        label={"List"}
-        value={selectedNode.data.list}
-        onChange={selectChangeHandler}
+        label={"Stage"}
+        value={selectedNode.data.stage}
+        onChange={(value) => selectChangeHandler(value, "stage")}
       >
         <SelectItem value="apple">Apple</SelectItem>
         <SelectItem value="banana">Banana</SelectItem>
@@ -63,4 +75,4 @@ const EditAddToList = () => {
   );
 };
 
-export default EditAddToList;
+export default EditAssignTask;

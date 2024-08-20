@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { SelectItem } from "@/components/ui/select";
 import SelectBox from "@/components/Shared/SelectBox";
 
-const EditAddToList = () => {
+const EditRemoveTag = () => {
   const { setSelectedNode, selectedNode } = useAutomationFlowStore((state) => ({
     setSelectedNode: state.setSelectedNode,
     selectedNode: state.selectedNode,
@@ -25,7 +25,7 @@ const EditAddToList = () => {
     console.log(value);
     setSelectedNode({
       ...selectedNode,
-      data: { ...selectedNode.data, list: value },
+      data: { ...selectedNode.data, tags: value },
     });
   };
 
@@ -49,8 +49,8 @@ const EditAddToList = () => {
       </div>
 
       <SelectBox
-        label={"List"}
-        value={selectedNode.data.list}
+        label={"Tags"}
+        value={selectedNode.data.tags}
         onChange={selectChangeHandler}
       >
         <SelectItem value="apple">Apple</SelectItem>
@@ -63,4 +63,4 @@ const EditAddToList = () => {
   );
 };
 
-export default EditAddToList;
+export default EditRemoveTag;
